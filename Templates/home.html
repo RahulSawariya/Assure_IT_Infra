@@ -1,0 +1,65 @@
+{% block body %}
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.js"></script>
+<div>
+    <div>
+        <div>
+            
+            <div id="wrapper">
+                <h2>Register</h2>
+                <label>First Name</label>
+                    <input type ="text" id="first_name" maxlength="20" placeholder="Enter First Name" title="First letter must be Capital" required><br>
+                <label>Last Name</label>
+                    <input type ="text" id="last_name" maxlength="20" placeholder="Enter Last Name" title="First letter must be Capital" required><br>
+                <label>Email Id</label>
+                    <input type ="text" id="email" maxlength="30" placeholder="Enter Email" title="Enter valid Email Address" required><br>
+                <label>Password</label>
+                    <input type ="password" id="password" maxlength="10" placeholder="Enter Password" title="Don't use Symbols" required><br>
+                <input id="send_data" type=submit>
+            </div>
+            <div id="container2" style="display: none;">
+                <h2>To Check Registration </h2>
+                <input id="fetch_data" type="submit" value="Click Here">
+                <div id="container3" style="display: none;">
+                    First Name : <h1 id="first_name" ></h1>
+                    Last Name : <h1 id="last_name" ></h1>
+                    Email : <h1 id="email" ></h1>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //when we use form than we need to use preventDefault() to  prevent from page refresh.
+    //$("#send_data").click(function(e){
+    //e.preventDefault();
+    const container = document.getElementById('wrapper');
+    const container2 = document.getElementById('container2');
+    const container3 = document.getElementById('container3');
+    const first_name = document.getElementById('first_name');
+    const last_name = document.getElementById('last_name');
+    const email = document.getElementById('email');
+        
+    $("#send_data").click(function(){
+        const details = {first_name:$('#first_name').val(),last_name:$('#last_name').val(),email:$('#email').val(),password:$('#password').val(),}
+        const json_data = JSON.stringify(details);
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+        if(this.status === 200){
+            globalThis.output_json = JSON.parse(xhr.responseText);
+            alert("Hello "+output_json.first_name);
+            container.style.display="none";
+            container2.style.display="block";
+        } else{
+            alert('Did not get any response!')
+        }
+    }
+        xhr.open('POST','');
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(json_data);
+    });
+    $("#fetch_data").click(function(){
+        container3.innerHTML= "First Name : "+output_json.first_name+ " Last Name : "+output_json.last_name+" Email : "+output_json.email;
+        container3.style.display="block";
+        });
+</script>
+{% endblock%}
