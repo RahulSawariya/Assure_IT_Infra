@@ -16,7 +16,6 @@ def send_data(request):
             print(received_json_data.get(i))
         try:
             User.objects.create_user(username=received_json_data.get('email'),email=received_json_data.get('email'),password=received_json_data.get('password'),first_name=received_json_data.get('first_name'),last_name=received_json_data.get('last_name'))
-            
         except:
             pass
         return JsonResponse(received_json_data)
